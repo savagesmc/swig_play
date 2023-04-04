@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 
-from buffer import Buffer
-import numpy as np
+import buffer
+
+buf = bytearray(6)
+buffer.snprintf(buf, "Hello world!")
+print(buf)
 
 size = 256
+pybuf = bytearray(size)
+for i in range(size):
+    pybuf[i] = i
 
-buf = Buffer()
-buf.put(size)
+buf = buffer.Buffer()
+buf.put(2*size)
+buffer.write(pybuf, buf, size)
 
-a = np.arange(size, dtype=np.uint8)
-b = a.tobytes()
-buf.write(b)
-
-for i in buf.getBufferSize():
-    print(hex(buf[i]))
+for i in range(2*size):
+    print(f"{i} : {hex(buf[i])}")
 

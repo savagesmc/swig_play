@@ -3,13 +3,14 @@
 %{
 #define SWIG_FILE_WITH_INIT
 #include "buffer.h"
+#include <cstdio>
 %}
 
 %import <pybuffer.i>
-%pybuffer_mutable_binary(char *str, size_t sz);
 
-namespace SwigPlay
-{
+// This is the example from the <pybuffer.i> documentation
+%pybuffer_mutable_binary(char *str, size_t size);
+int snprintf(char* str, size_t size, const char *format, ...);
 
 class Buffer
 {
@@ -24,25 +25,11 @@ public:
   void pull(std::size_t sz);
   void push(std::size_t sz);
   void pop(std::size_t sz);
+  void read(char* str, size_t size, size_t offset=0);
+  void write(char* str, size_t size, size_t offset=0);
 };
 
 %extend Buffer {
-  void read(char *str, size_t sz, size_t offset=0) const {
-    const unsigned char* base = static_cast<const unsigned char*>($self->getDataPtr()) + offset;
-    if (($self->getBufferSize()-offset) > sz)
-    {
-      throw std::runtime_error("Buffer::read - size mismatch");
-    }
-    memcpy(str, base, $self->getBufferSize());
-  }
-  void write(char *str, size_t sz, size_t offset=0) {
-    unsigned char* base = static_cast<unsigned char*>($self->getDataPtr()) + offset;
-    if (sz > ($self->getBufferSize()-offset))
-    {
-      throw std::runtime_error("Buffer::write - size mismatch");
-    }
-    memcpy(base, str, sz);
-  }
   unsigned char __getitem__(int i) const {
     const unsigned char* base = static_cast<const unsigned char*>($self->getDataPtr());
     return *(base + i);
@@ -56,6 +43,9 @@ public:
   }
 }
 
-
-}
+/*
+The only way I could get swig to work was with standalone functions that took the
+class as a parameter. I could not figure out how to get swig to work on a class method
+*/
+void write(char* str, size_t size, Buffer& buffer, size_t offset);
 

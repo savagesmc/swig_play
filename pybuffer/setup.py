@@ -5,7 +5,7 @@ setup.py file for SWIG buffer
 from distutils.core import setup, Extension
 
 buffer_module = Extension('_buffer',
-                           sources=['buffer_wrap.cxx'],
+                           sources=['buffer_wrap.cxx', 'buffer.cpp'],
                            )
 
 setup (name = 'buffer',

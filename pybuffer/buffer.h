@@ -1,8 +1,8 @@
+#pragma once
+
 #include <array>
 #include <stdexcept>
-
-namespace SwigPlay
-{
+#include <cstring>
 
 constexpr std::size_t maxBufferSize() { return 65536; }
 
@@ -92,7 +92,18 @@ public:
     begin_ += sz;
   }
 
+  // read/write for external copy access
+  void read(char* str, size_t size, size_t offset=0) {
+    // TOOD: Bound checking
+    std::memcpy(str, begin_+offset, size);
+  }
+
+  void write(char* str, size_t size, size_t offset=0) {
+    // TOOD: Bound checking
+    std::memcpy(begin_+offset, str, size);
+  }
+
 };
 
-}
+int write(char* str, size_t size, Buffer& buffer, size_t offset);
 
