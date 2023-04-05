@@ -9,8 +9,11 @@
 %import <pybuffer.i>
 
 // This is the example from the <pybuffer.i> documentation
-%pybuffer_mutable_binary(char *str, size_t size);
-int snprintf(char* str, size_t size, const char *format, ...);
+%pybuffer_mutable_binary(char *str, size_t sz);
+int snprintf(char* str, size_t sz, const char *format, ...);
+
+namespace SwigPlay
+{
 
 class Buffer
 {
@@ -25,8 +28,8 @@ public:
   void pull(std::size_t sz);
   void push(std::size_t sz);
   void pop(std::size_t sz);
-  void read(char* str, size_t size, size_t offset=0);
-  void write(char* str, size_t size, size_t offset=0);
+  void read(char* str, size_t sz, size_t offset=0);
+  void write(char* str, size_t sz, size_t offset=0);
 };
 
 %extend Buffer {
@@ -47,5 +50,6 @@ public:
 The only way I could get swig to work was with standalone functions that took the
 class as a parameter. I could not figure out how to get swig to work on a class method
 */
-void write(char* str, size_t size, Buffer& buffer, size_t offset);
+void write(char* str, size_t sz, Buffer &buffer, size_t offset);
 
+}

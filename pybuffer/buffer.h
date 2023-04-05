@@ -4,6 +4,9 @@
 #include <stdexcept>
 #include <cstring>
 
+namespace SwigPlay
+{
+
 constexpr std::size_t maxBufferSize() { return 65536; }
 
 class Buffer
@@ -105,5 +108,6 @@ public:
 
 };
 
-int write(char* str, size_t size, Buffer& buffer, size_t offset);
+int write(char* str, size_t size, Buffer &buffer, size_t offset);
 
+}
