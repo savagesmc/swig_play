@@ -96,18 +96,31 @@ public:
   }
 
   // read/write for external copy access
-  void read(char* str, size_t size, size_t offset=0) {
+  void read(char* str, size_t size) {
+    // TOOD: Bound checking
+    std::memcpy(str, begin_, size);
+  }
+
+  void read2(char* str, size_t size, size_t offset) {
     // TOOD: Bound checking
     std::memcpy(str, begin_+offset, size);
   }
 
-  void write(char* str, size_t size, size_t offset=0) {
+  void write(char* str, size_t size) {
+    // TOOD: Bound checking
+    std::memcpy(begin_, str, size);
+  }
+
+  void write2(char* str, size_t size, size_t offset) {
     // TOOD: Bound checking
     std::memcpy(begin_+offset, str, size);
   }
 
 };
 
-int write(char* str, size_t size, Buffer &buffer, size_t offset);
+int read(char* str, size_t size, Buffer &buffer);
+int read2(char* str, size_t size, Buffer &buffer, size_t offset);
+int write(char* str, size_t size, Buffer &buffer);
+int write2(char* str, size_t size, Buffer &buffer, size_t offset);
 
 }

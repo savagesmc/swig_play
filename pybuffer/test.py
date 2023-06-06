@@ -13,7 +13,7 @@ for i in range(size):
 
 buf = buffer.Buffer()
 buf.put(2*size)
-buffer.write(pybuf, buf, size)
+buffer.write2(pybuf, buf, size)
 
 for i in range(2*size):
     print(f"{i} : {hex(buf[i])}")
